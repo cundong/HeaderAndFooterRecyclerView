@@ -65,15 +65,16 @@ private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerO
 
 ![截屏][1]
 
-* 支持分页加载的LinearLayout布局的RecyclerView
+* 支持分页加载的LinearLayout布局RecyclerView
 
 ![截屏][2]
 
-* 支持分页加载的GridLayout布局的RecyclerView
+* 支持分页加载的GridLayout布局RecyclerView
 
 ![截屏][3]
 
-* 支持分页加载的StaggeredGridLayout布局的RecyclerView
+* 支持分页加载的StaggeredGridLayout布局RecyclerView
+
 ![截屏][4]
 
 ## 关于我
