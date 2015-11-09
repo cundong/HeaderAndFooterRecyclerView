@@ -78,7 +78,7 @@ private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerO
 
 ## 关于我
 
-* Blog: [http://my.oschina.net/liucundong/blog][12]
+* Blog: [http://my.oschina.net/liucundong/blog][5]
 * Mail: cundong.liu#gmail.com
 
 ## License
@@ -101,3 +101,4 @@ private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerO
   [2]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art2.png
   [3]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art3.png
   [4]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art4.png
+  [5]: http://my.oschina.net/liucundong/blog
