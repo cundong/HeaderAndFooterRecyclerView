@@ -19,6 +19,7 @@ import com.cundong.recyclerview.EndlessRecyclerOnScrollListener;
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.cundong.recyclerview.HeaderSpanSizeLookup;
 import com.cundong.recyclerview.RecyclerViewUtils;
+import com.cundong.recyclerview.sample.utils.NetworkUtils;
 import com.cundong.recyclerview.sample.utils.RecyclerViewStateUtils;
 import com.cundong.recyclerview.sample.weight.LoadingFooter;
 import com.cundong.recyclerview.sample.weight.SampleHeader;
@@ -147,9 +148,20 @@ public class EndlessGridLayoutActivity extends AppCompatActivity {
                 case -2:
                     activity.notifyDataSetChanged();
                     break;
+                case -3:
+                    RecyclerViewStateUtils.setFooterViewState(activity, activity.mRecyclerView, REQUEST_COUNT, LoadingFooter.State.NetWorkError, activity.mFooterClick);
+                    break;
             }
         }
     }
+
+    private View.OnClickListener mFooterClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerViewStateUtils.setFooterViewState(EndlessGridLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
+            requestData();
+        }
+    };
 
     /**
      * 模拟请求网络
@@ -163,12 +175,17 @@ public class EndlessGridLayoutActivity extends AppCompatActivity {
                 super.run();
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                mHandler.sendEmptyMessage(-1);
+                //模拟一下网络请求失败的情况
+                if(NetworkUtils.isNetAvailable(EndlessGridLayoutActivity.this)) {
+                    mHandler.sendEmptyMessage(-1);
+                } else {
+                    mHandler.sendEmptyMessage(-3);
+                }
             }
         }.start();
     }
