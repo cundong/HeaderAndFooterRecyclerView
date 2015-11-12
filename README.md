@@ -4,7 +4,7 @@
 
 ##介绍
 
-HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加载数据的RecyclerView。
+HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
 
 它可以对 RecyclerView 控件进行拓展（通过RecyclerView.Adapter实现），给RecyclerView增加HeaderView、FooterView，并且**不需要**对你的具体业务逻辑Adapter做任何修改。
 
