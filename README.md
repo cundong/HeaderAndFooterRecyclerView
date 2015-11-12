@@ -8,7 +8,7 @@ HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加�
 
 它可以对 RecyclerView 控件进行拓展（通过RecyclerView.Adapter实现），给RecyclerView增加HeaderView、FooterView，并且**不需要**对你的具体业务逻辑Adapter做任何修改。
 
-同时，通过修改FooterView State，可以动态为FooterView赋予不同状态（加载中、加载失败、滑到最底等），可以实现RecyclerView分页加载数据时的loading/theEnd/NetWorkError效果。
+同时，通过修改 FooterView State，可以动态 FooterView 赋予不同状态（加载中、加载失败、滑到最底等），可以实现 RecyclerView 分页加载数据时的 Loading/TheEnd/NetWorkError 效果。
 
 ##使用
 
