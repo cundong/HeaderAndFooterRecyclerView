@@ -263,6 +263,14 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
             mSortedList.endBatchedUpdates();
         }
 
+        public void deleteItems(ArrayList<ItemModel> items) {
+            mSortedList.beginBatchedUpdates();
+            for (ItemModel item : items) {
+                mSortedList.remove(item);
+            }
+            mSortedList.endBatchedUpdates();
+        }
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(mLayoutInflater.inflate(R.layout.sample_item_text, parent, false));
