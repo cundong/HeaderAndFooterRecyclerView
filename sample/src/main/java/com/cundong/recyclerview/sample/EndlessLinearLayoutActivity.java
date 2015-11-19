@@ -45,7 +45,6 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView = null;
 
     private DataAdapter mDataAdapter = null;
-    private ArrayList<ItemModel> mDataList = null;
 
     private PreviewHandler mHandler = new PreviewHandler(this);
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter = null;
@@ -58,20 +57,20 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
 
         //init data
-        mDataList = new ArrayList<>();
+        ArrayList<ItemModel> dataList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
 
             ItemModel item = new ItemModel();
             item.id = i;
             item.title = "item" + i;
-            mDataList.add(item);
+            dataList.add(item);
         }
 
-        mCurrentCounter = mDataList.size();
+        mCurrentCounter = dataList.size();
 
         mDataAdapter = new DataAdapter(this);
-        mDataAdapter.addItems(mDataList);
+        mDataAdapter.addItems(dataList);
 
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
@@ -87,8 +86,10 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
         mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
 
-    private void addItems() {
-        mDataAdapter.addItems(mDataList);
+    private void addItems(ArrayList<ItemModel> list) {
+
+        mDataAdapter.addItems(list);
+        mCurrentCounter += list.size();
     }
 
     private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
@@ -102,8 +103,6 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
                 Log.d("@Cundong", "the state is Loading, just wait..");
                 return;
             }
-
-            mCurrentCounter = mDataList.size();
 
             if (mCurrentCounter < TOTAL_COUNTER) {
                 // loading more
@@ -133,12 +132,12 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case -1:
-                    int currentSize = activity.mDataList.size();
+                    int currentSize = activity.mDataAdapter.getItemCount();
 
-                    //模拟组装数据
+                    //模拟组装10个数据
+                    ArrayList<ItemModel> newList = new ArrayList<>();
                     for (int i = 0; i < 10; i++) {
-
-                        if (activity.mDataList.size() >= TOTAL_COUNTER) {
+                        if (newList.size() + currentSize >= TOTAL_COUNTER) {
                             break;
                         }
 
@@ -146,10 +145,10 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
                         item.id = currentSize + i;
                         item.title = "item" + (item.id);
 
-                        activity.mDataList.add(item);
+                        newList.add(item);
                     }
 
-                    activity.addItems();
+                    activity.addItems(newList);
                     RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
                     break;
                 case -2:
@@ -279,7 +278,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-            ItemModel item = mDataList.get(position);
+            ItemModel item = mSortedList.get(position);
 
             ViewHolder viewHolder = (ViewHolder) holder;
             viewHolder.textView.setText(item.title);
@@ -287,7 +286,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mDataList.size();
+            return mSortedList.size();
         }
 
         private class ViewHolder extends RecyclerView.ViewHolder {
@@ -301,7 +300,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
                 textView.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ItemModel item = mDataList.get(RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this));
+                        ItemModel item = mSortedList.get(RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this));
                         Toast.makeText(EndlessLinearLayoutActivity.this, item.title, Toast.LENGTH_SHORT).show();
                     }
                 });

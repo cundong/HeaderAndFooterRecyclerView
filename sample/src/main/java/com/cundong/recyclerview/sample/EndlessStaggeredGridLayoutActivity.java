@@ -1,7 +1,6 @@
 package com.cundong.recyclerview.sample;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,7 +47,6 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView = null;
 
     private DataAdapter mDataAdapter = null;
-    private ArrayList<String> mDataList = null;
 
     private PreviewHandler mHandler = new PreviewHandler(this);
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter = null;
@@ -61,15 +59,15 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
 
         //init data
-        mDataList = new ArrayList<>();
+        ArrayList<String> dataList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            mDataList.add("item" + i);
+            dataList.add("item" + i);
         }
 
-        mCurrentCounter = mDataList.size();
+        mCurrentCounter = dataList.size();
 
         mDataAdapter = new DataAdapter(this);
-        mDataAdapter.setData(mDataList);
+        mDataAdapter.addAll(dataList);
 
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter);
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
@@ -84,12 +82,13 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
-    private void notifyDataSetChanged() {
-        mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
+    private void addItems(ArrayList<String> list) {
+        mDataAdapter.addAll(list);
+        mCurrentCounter += list.size();
     }
 
-    private void refreshData() {
-        mDataAdapter.setData(mDataList);
+    private void notifyDataSetChanged() {
+        mHeaderAndFooterRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
@@ -103,8 +102,6 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
                 Log.d("@Cundong", "the state is Loading, just wait..");
                 return;
             }
-
-            mCurrentCounter = mDataList.size();
 
             if (mCurrentCounter < TOTAL_COUNTER) {
                 // loading more
@@ -134,17 +131,19 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case -1:
-                    int currentSize = activity.mDataList.size();
+                    int currentSize = activity.mDataAdapter.getItemCount();
 
-                    //模拟组装数据
+                    //模拟组装10个数据
+                    ArrayList<String> newList = new ArrayList<>();
                     for (int i = 0; i < 10; i++) {
-                        if(activity.mDataList.size() >= TOTAL_COUNTER) {
+                        if (newList.size() + currentSize >= TOTAL_COUNTER) {
                             break;
                         }
-                        activity.mDataList.add("item" + (currentSize+i));
+
+                        newList.add("item" + (currentSize + i));
                     }
 
-                    activity.refreshData();
+                    activity.addItems(newList);
                     RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
                     break;
                 case -2:
@@ -205,9 +204,11 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
             smallCardHeight = (int)context.getResources().getDisplayMetrics().density * 200;
         }
 
-        public void setData(ArrayList<String> list) {
-            this.mDataList = list;
-            notifyDataSetChanged();
+        private void addAll(ArrayList<String> list) {
+            int lastIndex = this.mDataList.size();
+            if (this.mDataList.addAll(list)) {
+                notifyItemRangeInserted(lastIndex, list.size());
+            }
         }
 
         @Override
