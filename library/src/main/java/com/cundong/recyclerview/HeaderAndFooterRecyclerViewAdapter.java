@@ -74,7 +74,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
         if (adapter != null) {
             if (!(adapter instanceof RecyclerView.Adapter))
-                throw new RuntimeException("your adapter must be a RecyclerView.Adapter");
+                throw new CustomException("your adapter must be a RecyclerView.Adapter");
         }
 
         if (mInnerAdapter != null) {
@@ -94,7 +94,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public void addHeaderView(View header) {
 
         if (header == null) {
-            throw new RuntimeException("header is null");
+            throw new CustomException("header is null");
         }
 
         mHeaderViews.add(header);
@@ -104,7 +104,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public void addFooterView(View footer) {
 
         if (footer == null) {
-            throw new RuntimeException("footer is null");
+            throw new CustomException("footer is null");
         }
 
         mFooterViews.add(footer);
