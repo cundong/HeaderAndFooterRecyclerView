@@ -25,6 +25,7 @@ import com.cundong.recyclerview.sample.weight.SampleHeader;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cundong on 2015/10/29.
@@ -252,7 +253,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
             });
         }
 
-        public void addItems(ArrayList<ItemModel> list) {
+        public void addItems(List<ItemModel> list) {
             mSortedList.beginBatchedUpdates();
 
             for(ItemModel itemModel : list) {
@@ -262,7 +263,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
             mSortedList.endBatchedUpdates();
         }
 
-        public void deleteItems(ArrayList<ItemModel> items) {
+        public void deleteItems(List<ItemModel> items) {
             mSortedList.beginBatchedUpdates();
             for (ItemModel item : items) {
                 mSortedList.remove(item);

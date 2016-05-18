@@ -17,6 +17,7 @@ import com.cundong.recyclerview.sample.weight.SampleFooter;
 import com.cundong.recyclerview.sample.weight.SampleHeader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cundong on 2015/10/29.
@@ -39,7 +40,7 @@ public class LinearLayoutActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
 
         //init data
-        ArrayList<String> dataList = new ArrayList<>();
+        List<String> dataList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             dataList.add("item" + i);
         }
@@ -62,13 +63,13 @@ public class LinearLayoutActivity extends AppCompatActivity {
     private class DataAdapter extends RecyclerView.Adapter {
 
         private LayoutInflater mLayoutInflater;
-        private ArrayList<String> mDataList = new ArrayList<>();
+        private List<String> mDataList = new ArrayList<>();
 
         public DataAdapter(Context context) {
             mLayoutInflater = LayoutInflater.from(context);
         }
 
-        public void setData(ArrayList<String> list) {
+        public void setData(List<String> list) {
             this.mDataList = list;
             notifyDataSetChanged();
         }
