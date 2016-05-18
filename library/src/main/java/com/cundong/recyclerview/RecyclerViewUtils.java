@@ -10,6 +10,9 @@ import android.view.View;
  */
 public class RecyclerViewUtils {
 
+    private  RecyclerViewUtils() throws InstantiationException{
+        throw new InstantiationException("This class is not meant to be instantiated");
+    }
     /**
      * 设置HeaderView
      *

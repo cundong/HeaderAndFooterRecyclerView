@@ -12,6 +12,9 @@ import android.net.NetworkInfo;
  */
 public class NetworkUtils {
 
+    private NetworkUtils() throws InstantiationException{
+        throw new InstantiationException("This class is not meant to instantiated");
+    }
     /**
      * 判断是不是wifi网络状态
      *

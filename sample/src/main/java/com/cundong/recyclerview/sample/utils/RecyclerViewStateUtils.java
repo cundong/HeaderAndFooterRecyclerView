@@ -14,8 +14,11 @@ import com.cundong.recyclerview.sample.weight.LoadingFooter;
  *
  * RecyclerView一共有几种State：Normal/Loading/Error/TheEnd
  */
-public class RecyclerViewStateUtils {
+public final  class RecyclerViewStateUtils {
 
+    private  RecyclerViewStateUtils() throws InstantiationException{
+        throw new InstantiationException("This class is not meant to be instantiated");
+    }
     /**
      * 设置headerAndFooterAdapter的FooterView State
      *
