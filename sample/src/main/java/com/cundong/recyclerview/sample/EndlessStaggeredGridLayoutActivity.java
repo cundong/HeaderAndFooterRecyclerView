@@ -179,6 +179,7 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
 
                 //模拟一下网络请求失败的情况
