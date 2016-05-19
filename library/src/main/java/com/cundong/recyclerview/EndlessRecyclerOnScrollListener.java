@@ -67,6 +67,8 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
                 staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                 lastVisibleItemPosition = findMax(lastPositions);
                 break;
+            default:
+                break;
         }
     }
 
