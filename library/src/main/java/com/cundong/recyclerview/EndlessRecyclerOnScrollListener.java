@@ -60,16 +60,18 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
                 lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
                 break;
             case StaggeredGridLayout:
-                StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                if (lastPositions == null) {
-                    lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                }
-                staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
-                lastVisibleItemPosition = findMax(lastPositions);
+                handleStaggeredGridLayoutCase(layoutManager);
                 break;
         }
     }
-
+    private void handleStaggeredGridLayoutCase( RecyclerView.LayoutManager layoutManager){
+        StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+        if (lastPositions == null) {
+            lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+        }
+        staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
+        lastVisibleItemPosition = findMax(lastPositions);
+    }
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);

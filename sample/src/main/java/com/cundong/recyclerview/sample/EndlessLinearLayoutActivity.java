@@ -132,24 +132,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case -1:
-                    int currentSize = activity.mDataAdapter.getItemCount();
-
-                    //模拟组装10个数据
-                    ArrayList<ItemModel> newList = new ArrayList<>();
-                    for (int i = 0; i < 10; i++) {
-                        if (newList.size() + currentSize >= TOTAL_COUNTER) {
-                            break;
-                        }
-
-                        ItemModel item = new ItemModel();
-                        item.id = currentSize + i;
-                        item.title = "item" + (item.id);
-
-                        newList.add(item);
-                    }
-
-                    activity.addItems(newList);
-                    RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
+                    handleCaseMinusOne(activity);
                     break;
                 case -2:
                     activity.notifyDataSetChanged();
@@ -159,6 +142,26 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+    private static  void handleCaseMinusOne(final EndlessLinearLayoutActivity activity){
+        int currentSize = activity.mDataAdapter.getItemCount();
+
+        //模拟组装10个数据
+        ArrayList<ItemModel> newList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            if (newList.size() + currentSize >= TOTAL_COUNTER) {
+                break;
+            }
+
+            ItemModel item = new ItemModel();
+            item.id = currentSize + i;
+            item.title = "item" + (item.id);
+
+            newList.add(item);
+        }
+
+        activity.addItems(newList);
+        RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
     }
 
     private View.OnClickListener mFooterClick = new View.OnClickListener() {

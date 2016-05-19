@@ -70,89 +70,98 @@ public class LoadingFooter extends RelativeLayout {
         switch (status) {
 
             case Normal:
-                setOnClickListener(null);
-                if (mLoadingView != null) {
-                    mLoadingView.setVisibility(GONE);
-                }
-
-                if (mTheEndView != null) {
-                    mTheEndView.setVisibility(GONE);
-                }
-
-                if (mNetworkErrorView != null) {
-                    mNetworkErrorView.setVisibility(GONE);
-                }
-
+                handleStatusNormal();
                 break;
             case Loading:
-                setOnClickListener(null);
-                if (mTheEndView != null) {
-                    mTheEndView.setVisibility(GONE);
-                }
-
-                if (mNetworkErrorView != null) {
-                    mNetworkErrorView.setVisibility(GONE);
-                }
-
-                if (mLoadingView == null) {
-                    ViewStub viewStub = (ViewStub) findViewById(R.id.loading_viewstub);
-                    mLoadingView = viewStub.inflate();
-
-                    mLoadingProgress = (ProgressBar) mLoadingView.findViewById(R.id.loading_progress);
-                    mLoadingText = (TextView) mLoadingView.findViewById(R.id.loading_text);
-                } else {
-                    mLoadingView.setVisibility(VISIBLE);
-                }
-
-                mLoadingView.setVisibility(showView ? VISIBLE : GONE);
-
-                mLoadingProgress.setVisibility(View.VISIBLE);
-                mLoadingText.setText(R.string.list_footer_loading);
+                handleStatusLoading(showView);
                 break;
             case TheEnd:
-                setOnClickListener(null);
-                if (mLoadingView != null) {
-                    mLoadingView.setVisibility(GONE);
-                }
-
-                if (mNetworkErrorView != null) {
-                    mNetworkErrorView.setVisibility(GONE);
-                }
-
-                if (mTheEndView == null) {
-                    ViewStub viewStub = (ViewStub) findViewById(R.id.end_viewstub);
-                    mTheEndView = viewStub.inflate();
-                } else {
-                    mTheEndView.setVisibility(VISIBLE);
-                }
-
-                mTheEndView.setVisibility(showView ? VISIBLE : GONE);
+                handleStatusTheEnd(showView);
                 break;
             case NetWorkError:
-
-                if (mLoadingView != null) {
-                    mLoadingView.setVisibility(GONE);
-                }
-
-                if (mTheEndView != null) {
-                    mTheEndView.setVisibility(GONE);
-                }
-
-                if (mNetworkErrorView == null) {
-                    ViewStub viewStub = (ViewStub) findViewById(R.id.network_error_viewstub);
-                    mNetworkErrorView = viewStub.inflate();
-                } else {
-                    mNetworkErrorView.setVisibility(VISIBLE);
-                }
-
-                mNetworkErrorView.setVisibility(showView ? VISIBLE : GONE);
+                handleStatusNetworkError(showView);
                 break;
             default:
 
                 break;
         }
     }
+    private void handleStatusNormal(){
+        setOnClickListener(null);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(GONE);
+        }
 
+        if (mTheEndView != null) {
+            mTheEndView.setVisibility(GONE);
+        }
+
+        if (mNetworkErrorView != null) {
+            mNetworkErrorView.setVisibility(GONE);
+        }
+    }
+    private void handleStatusLoading(boolean showView){
+        setOnClickListener(null);
+        if (mTheEndView != null) {
+            mTheEndView.setVisibility(GONE);
+        }
+
+        if (mNetworkErrorView != null) {
+            mNetworkErrorView.setVisibility(GONE);
+        }
+
+        if (mLoadingView == null) {
+            ViewStub viewStub = (ViewStub) findViewById(R.id.loading_viewstub);
+            mLoadingView = viewStub.inflate();
+
+            mLoadingProgress = (ProgressBar) mLoadingView.findViewById(R.id.loading_progress);
+            mLoadingText = (TextView) mLoadingView.findViewById(R.id.loading_text);
+        } else {
+            mLoadingView.setVisibility(VISIBLE);
+        }
+
+        mLoadingView.setVisibility(showView ? VISIBLE : GONE);
+
+        mLoadingProgress.setVisibility(View.VISIBLE);
+        mLoadingText.setText(R.string.list_footer_loading);
+    }
+    private void handleStatusTheEnd(boolean showView){
+        setOnClickListener(null);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(GONE);
+        }
+
+        if (mNetworkErrorView != null) {
+            mNetworkErrorView.setVisibility(GONE);
+        }
+
+        if (mTheEndView == null) {
+            ViewStub viewStub = (ViewStub) findViewById(R.id.end_viewstub);
+            mTheEndView = viewStub.inflate();
+        } else {
+            mTheEndView.setVisibility(VISIBLE);
+        }
+
+        mTheEndView.setVisibility(showView ? VISIBLE : GONE);
+    }
+    private void handleStatusNetworkError(boolean showView){
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(GONE);
+        }
+
+        if (mTheEndView != null) {
+            mTheEndView.setVisibility(GONE);
+        }
+
+        if (mNetworkErrorView == null) {
+            ViewStub viewStub = (ViewStub) findViewById(R.id.network_error_viewstub);
+            mNetworkErrorView = viewStub.inflate();
+        } else {
+            mNetworkErrorView.setVisibility(VISIBLE);
+        }
+
+        mNetworkErrorView.setVisibility(showView ? VISIBLE : GONE);
+    }
     public static enum State {
         Normal/**正常*/, TheEnd/**加载到最底了*/, Loading/**加载中..*/, NetWorkError/**网络异常*/
     }
