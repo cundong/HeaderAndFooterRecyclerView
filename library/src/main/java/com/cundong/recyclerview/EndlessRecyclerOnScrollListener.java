@@ -40,10 +40,10 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
         if (layoutManagerType == null) {
-            if (layoutManager instanceof LinearLayoutManager) {
-                layoutManagerType = LayoutManagerType.LinearLayout;
-            } else if (layoutManager instanceof GridLayoutManager) {
+            if (layoutManager instanceof GridLayoutManager) {
                 layoutManagerType = LayoutManagerType.GridLayout;
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                layoutManagerType = LayoutManagerType.LinearLayout;
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                 layoutManagerType = LayoutManagerType.StaggeredGridLayout;
             } else {
