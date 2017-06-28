@@ -1,8 +1,8 @@
-##HeaderAndFooterRecyclerView
+## HeaderAndFooterRecyclerView
 
 ------
 
-##介绍
+## 介绍
 
 HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
 
@@ -10,7 +10,7 @@ HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加�
 
 同时，通过修改 FooterView State，可以动态 FooterView 赋予不同状态（加载中、加载失败、滑到最底等），可以实现 RecyclerView 分页加载数据时的 Loading/TheEnd/NetWorkError 效果。
 
-##使用
+## 使用
 
 * 添加HeaderView、FooterView
 ```java
