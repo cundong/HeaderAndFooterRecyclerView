@@ -1,113 +1,106 @@
 ## HeaderAndFooterRecyclerView
 
-------
+## Introduction
 
-## 介绍
+HeaderAndFooterRecyclerView is a RecyclerView solution that supports addHeaderView, addFooterView to a RecyclerView.
 
-HeaderAndFooterRecyclerView 是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
+Through this library, you can implement RecyclerView's Page Loading by dynamically modify the FooterView's State, such as "loading", "loading error", "loading success", "slipping to the bottom".
 
-它可以对 RecyclerView 控件进行拓展（通过RecyclerView.Adapter实现），给RecyclerView增加HeaderView、FooterView，并且**不需要**对你的具体业务逻辑Adapter做任何修改。
+## How to Use It
 
-同时，通过修改 FooterView State，可以动态 FooterView 赋予不同状态（加载中、加载失败、滑到最底等），可以实现 RecyclerView 分页加载数据时的 Loading/TheEnd/NetWorkError 效果。
+* Add HeaderView, FooterView
+`` `Java
+        MHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter (mDataAdapter);
+        MRecyclerView.setAdapter (mHeaderAndFooterRecyclerViewAdapter);
 
-sample工程，是一个简单addHeaderView、 addFooterView 的示例，samplePlus工程，是一个通过改变 FooterView 状态实现了分页加载的示例工程。
+        MRecyclerView.setLayoutManager (new LinearLayoutManager (this));
 
-## 使用
+        // add a HeaderView
+        RecyclerViewUtils.setHeaderView (mRecyclerView, new SampleHeader (this));
 
-* 添加HeaderView、FooterView
-```java
-        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter);
-        mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+        // add a FooterView
+        RecyclerViewUtils.setFooterView (mRecyclerView, new SampleFooter (this));
+`` ``
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+* LinearLayout / GridLayout / StaggeredGridLayout layout of RecyclerView paging load
 
-        //add a HeaderView
-        RecyclerViewUtils.setHeaderView(mRecyclerView, new SampleHeader(this));
+`` `Java
+MRecyclerView.addOnScrollListener (mOnScrollListener);
+`` ``
 
-        //add a FooterView
-        RecyclerViewUtils.setFooterView(mRecyclerView, new SampleFooter(this));
-```
+`` `Java
+Private endlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener () {
 
-* LinearLayout/GridLayout/StaggeredGridLayout布局的RecyclerView分页加载
+        @Override
+        Public void onLoadNextPage (View view) {
+            Super.onLoadNextPage (view);
 
-```java
-mRecyclerView.addOnScrollListener(mOnScrollListener);
-```
+            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState (mRecyclerView);
+            If (state == LoadingFooter.State.Loading) {
+                Log.d ("@ Cundong", "the state is Loading, just wait ..");
+                Return;
+            }
 
-```java
-private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+            MCurrentCounter = mDataList.size ();
 
-        @Override
-        public void onLoadNextPage(View view) {
-            super.onLoadNextPage(view);
+            If (mCurrentCounter <TOTAL_COUNTER) {
+                // loading more
+                RecyclerViewStateUtils.setFooterViewState (EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
+                RequestData ();
+            } Else {
+                // the end
+                RecyclerViewStateUtils.setFooterViewState (EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
+            }
+        }
+    };
+`` ``
+## Attention
 
-            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if(state == LoadingFooter.State.Loading) {
-                Log.d("@Cundong", "the state is Loading, just wait..");
-                return;
-            }
+If you have already added a HeaderView for RecyclerView by ```RecyclerViewUtils.setHeaderView(mRecyclerView, view);``` , then call the ViewHolder 's ```getAdapterPosition()```、```getLayoutPosition()```, ,the returned value will be affected by the addition of the HeaderView (the return position is the real position + headerCounter).
 
-            mCurrentCounter = mDataList.size();
-
-            if (mCurrentCounter < TOTAL_COUNTER) {
-                // loading more
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
-                requestData();
-            } else {
-                //the end
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
-            }
-        }
-    };
-```
-## 注意事项
-
-如果已经使用 ```RecyclerViewUtils.setHeaderView(mRecyclerView, view);``` 为RecyclerView添加了HeaderView，那么再调用ViewHolder类的```getAdapterPosition()```、```getLayoutPosition()```时返回的值就会因为增加了Header而受影响（返回的position等于真实的position+headerCounter）。
-
-因此，这种情况下请使用
-```RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this)```、```RecyclerViewUtils.getLayoutPosition(mRecyclerView, ViewHolder.this)``` 两个方法来替代。
+Therefore, in this case, please use: ```RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this)```, ```RecyclerViewUtils.getLayoutPosition(mRecyclerView, ViewHolder.this)``` .
 
 ## Demo
 
-* 添加HeaderView、FooterView
+* Add HeaderView, FooterView
 
-![截屏][1]
+[Screenshots] [1]
 
-* 支持分页加载的LinearLayout布局RecyclerView
+* Support for ply loading of the LinearLayout layout RecyclerView
 
-![截屏][2]
+[Screenshots] [2]
 
-* 支持分页加载的GridLayout布局RecyclerView
+* Support for paging loads of GridLayout layout RecyclerView
 
-![截屏][3]
+[Screenshots] [3]
 
-* 支持分页加载的StaggeredGridLayout布局RecyclerView
+* Supports paging loads of StaggeredGridLayout layout RecyclerView
 
-![截屏][4]
+[Screenshots] [4]
 
-* 分页加载失败时的GridLayout布局RecyclerView
+* The page load fails when the GridLayout layout is RecyclerView
 
-![截屏][5]
+[Screenshots] [5]
 
 ## License
 
-    Copyright 2015 Cundong
+    Copyright 2015 Cundong
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+    Licensed under the Apache License, Version 2.0 (the "License");
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       Http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Have required by accepted law or agreed to in writing, software
+    Distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the license for the specific language governing permissions and
+    Limitations under the License
 
-  [1]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art1.png
-  [2]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art2.png
-  [3]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art3.png
-  [4]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art4.png
-  [5]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art5.png
-  [6]: http://my.oschina.net/liucundong/blog
+  [1]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art1.png
+  [2]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art2.png
+  [3]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art3.png
+  [4]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art4.png
+  [5]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art5.png
+  [6]: http://my.oschina.net/liucundong/blog
