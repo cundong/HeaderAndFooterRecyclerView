@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wrapper_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_60"
+    android:layout_height="150dip"
     android:layout_margin="@dimen/dp_4"
-    android:background="#555555">
+    android:background="@drawable/test">
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:textColor="@color/color_ff"
-        android:textSize="@dimen/dp_14" />
+        android:gravity="center" />
 </LinearLayout>

@@ -13,5 +13,5 @@ public interface OnListLoadNextPageListener {
      *
      * @param view 当前RecyclerView/ListView/GridView
      */
-    public void onLoadNextPage(View view);
+    void onLoadNextPage(View view);
 }

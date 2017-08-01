@@ -13,17 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".LinearLayoutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LinearLayoutActivity" />
-        <activity android:name=".EndlessLinearLayoutActivity" />
-        <activity android:name=".EndlessGridLayoutActivity" />
-        <activity android:name=".EndlessStaggeredGridLayoutActivity" />
     </application>
 
 </manifest>

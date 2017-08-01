@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_60"
     android:layout_margin="@dimen/dp_4"
-    android:background="#555555">
+    android:background="@drawable/test">
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/color_ff"
+        android:textColor="@color/color_00"
         android:textSize="@dimen/dp_14" />
 </LinearLayout>

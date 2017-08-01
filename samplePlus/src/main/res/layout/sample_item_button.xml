@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_60"
-    android:layout_margin="@dimen/dp_4"
-    android:background="#555555">
+    android:layout_height="@dimen/dp_60">
 
-    <TextView
-        android:id="@+id/info_text"
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/color_ff"
+        android:gravity="left|center_vertical"
+        android:textAllCaps="false"
+        android:textColor="@color/color_00"
         android:textSize="@dimen/dp_14" />
 </LinearLayout>
