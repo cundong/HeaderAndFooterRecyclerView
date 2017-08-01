@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cundong.recyclerview.RecyclerViewUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cundong on 2015/11/10.
@@ -60,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
     private class DataAdapter extends RecyclerView.Adapter {
 
         private LayoutInflater mLayoutInflater;
-        private ArrayList<ListItem> mDataList = new ArrayList<>();
+        private List<ListItem> mDataList = new ArrayList<>();
 
         public DataAdapter(Context context) {
             mLayoutInflater = LayoutInflater.from(context);
         }
 
-        public void setData(ArrayList<ListItem> list) {
+        public void setData(List<ListItem> list) {
             this.mDataList = list;
             notifyDataSetChanged();
         }
