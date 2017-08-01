@@ -130,20 +130,7 @@ public class EndlessGridLayoutActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case -1:
-                    int currentSize = activity.mDataAdapter.getItemCount();
-
-                    //模拟组装10个数据
-                    ArrayList<String> newList = new ArrayList<>();
-                    for (int i = 0; i < 10; i++) {
-                        if (newList.size() + currentSize >= TOTAL_COUNTER) {
-                            break;
-                        }
-
-                        newList.add("item" + (currentSize + i));
-                    }
-
-                    activity.addItems(newList);
-                    RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
+                    handleCaseMinusOne(activity);
                     break;
                 case -2:
                     activity.notifyDataSetChanged();
@@ -154,7 +141,19 @@ public class EndlessGridLayoutActivity extends AppCompatActivity {
             }
         }
     }
-
+    private static void handleCaseMinusOne(EndlessGridLayoutActivity activity){
+        int currentSize = activity.mDataAdapter.getItemCount();
+        //模拟组装10个数据
+        ArrayList<String> newList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            if (newList.size() + currentSize >= TOTAL_COUNTER) {
+                break;
+            }
+            newList.add("item" + (currentSize + i));
+        }
+        activity.addItems(newList);
+        RecyclerViewStateUtils.setFooterViewState(activity.mRecyclerView, LoadingFooter.State.Normal);
+    }
     private View.OnClickListener mFooterClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
