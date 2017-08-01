@@ -75,14 +75,10 @@ public class RecyclerViewUtils {
     public static void removeHeaderView(RecyclerView recyclerView) {
 
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
-
-        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
-            if (headerViewCounter > 0) {
-                View headerView = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderView();
-                ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).removeFooterView(headerView);
-            }
+        int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
+        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter && headerViewCounter > 0) {
+            View headerView = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderView();
+            ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).removeFooterView(headerView);
         }
     }
 
@@ -95,12 +91,9 @@ public class RecyclerViewUtils {
      */
     public static int getLayoutPosition(RecyclerView recyclerView, RecyclerView.ViewHolder holder) {
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
-        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
-            if (headerViewCounter > 0) {
-                return holder.getLayoutPosition() - headerViewCounter;
-            }
+        int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
+        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter && headerViewCounter > 0) {
+            return holder.getLayoutPosition() - headerViewCounter;
         }
 
         return holder.getLayoutPosition();

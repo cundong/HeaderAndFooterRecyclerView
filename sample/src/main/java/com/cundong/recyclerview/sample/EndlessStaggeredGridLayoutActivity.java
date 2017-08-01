@@ -152,6 +152,8 @@ public class EndlessStaggeredGridLayoutActivity extends AppCompatActivity {
                 case -3:
                     RecyclerViewStateUtils.setFooterViewState(activity, activity.mRecyclerView, REQUEST_COUNT, LoadingFooter.State.NetWorkError, activity.mFooterClick);
                     break;
+                default:
+                    break;
             }
         }
     }

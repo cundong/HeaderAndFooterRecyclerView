@@ -72,8 +72,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
      */
     public void setAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
 
-        if (adapter != null) {
-            if (!(adapter instanceof RecyclerView.Adapter))
+        if (adapter != null&&!(adapter instanceof RecyclerView.Adapter)) {
                 throw new RuntimeException("your adapter must be a RecyclerView.Adapter");
         }
 
