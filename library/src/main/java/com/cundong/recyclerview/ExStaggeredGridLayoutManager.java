@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import java.util.logging.Logger;
+
 /**
  * Created by cundong on 2015/10/9.
  * <p/>
@@ -12,6 +14,7 @@ import android.view.View;
  */
 public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
 
+    private static final Logger LOGGER=Logger.getLogger(ExStaggeredGridLayoutManager.class.getName());
     private final String TAG = getClass().getSimpleName();
 
     GridLayoutManager.SpanSizeLookup mSpanSizeLookup;
@@ -60,7 +63,7 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
                     }
                     // recycler.recycleView(view);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.warning(e.toString());
                 }
             }
         }

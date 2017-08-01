@@ -25,6 +25,7 @@ import com.cundong.recyclerview.sample.weight.SampleHeader;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Created by cundong on 2015/10/29.
@@ -33,6 +34,7 @@ import java.util.ArrayList;
  */
 public class EndlessLinearLayoutActivity extends AppCompatActivity {
 
+    private static final Logger LOGGER= Logger.getLogger(EndlessLinearLayoutActivity.class.getName());
     /**服务器端一共多少条数据*/
     private static final int TOTAL_COUNTER = 64;
 
@@ -183,7 +185,7 @@ public class EndlessLinearLayoutActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.warning(e.toString());
                 }
 
                 //模拟一下网络请求失败的情况
