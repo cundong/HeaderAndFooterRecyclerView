@@ -4,11 +4,13 @@
 
 ## 介绍
 
-HeaderAndFooterRecyclerView是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
+HeaderAndFooterRecyclerView 是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
 
 它可以对 RecyclerView 控件进行拓展（通过RecyclerView.Adapter实现），给RecyclerView增加HeaderView、FooterView，并且**不需要**对你的具体业务逻辑Adapter做任何修改。
 
 同时，通过修改 FooterView State，可以动态 FooterView 赋予不同状态（加载中、加载失败、滑到最底等），可以实现 RecyclerView 分页加载数据时的 Loading/TheEnd/NetWorkError 效果。
+
+sample工程，是一个简单addHeaderView、 addFooterView 的示例，samplePlus工程，是一个通过改变 FooterView 状态实现了分页加载的示例工程。
 
 ## 使用
 
@@ -86,11 +88,6 @@ private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerO
 * 分页加载失败时的GridLayout布局RecyclerView
 
 ![截屏][5]
-
-## 关于我
-
-* Blog: [http://my.oschina.net/liucundong/blog][6]
-* Mail: cundong.liu#gmail.com
 
 ## License
 
