@@ -1,6 +1,8 @@
 package com.cundong.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.support.v7.widget.RecyclerView.LayoutParams;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     private static final int TYPE_HEADER_VIEW = Integer.MIN_VALUE;
     private static final int TYPE_FOOTER_VIEW = Integer.MIN_VALUE + 1;
-
+    private LayoutManager mLayoutManager;
     /**
      * RecyclerView使用的，真正的Adapter
      */
@@ -58,6 +60,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             notifyItemRangeChanged(fromPosition + headerViewsCountCount, toPosition + headerViewsCountCount + itemCount);
         }
     };
+
 
     public HeaderAndFooterRecyclerViewAdapter() {
     }
@@ -176,6 +179,12 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             if(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
                 ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
             }
+            if(layoutParams==null && mLayoutManager instanceof  StaggeredGridLayoutManager){
+                StaggeredGridLayoutManager.LayoutParams StaggeredGridLayoutParams
+                        = new StaggeredGridLayoutManager.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                StaggeredGridLayoutParams.setFullSpan(true);
+                holder.itemView.setLayoutParams(StaggeredGridLayoutParams);
+            }
         }
     }
 
@@ -206,5 +215,11 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mInnerAdapter.onAttachedToRecyclerView(recyclerView);
+        mLayoutManager = recyclerView.getLayoutManager();
     }
 }
