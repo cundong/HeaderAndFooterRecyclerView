@@ -179,7 +179,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             if(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
                 ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
             }
-            if(layoutParams!=null && mLayoutManager instanceof  StaggeredGridLayoutManager){
+            if(layoutParams==null && mLayoutManager instanceof  StaggeredGridLayoutManager){
                 StaggeredGridLayoutManager.LayoutParams StaggeredGridLayoutParams
                         = new StaggeredGridLayoutManager.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                 StaggeredGridLayoutParams.setFullSpan(true);
