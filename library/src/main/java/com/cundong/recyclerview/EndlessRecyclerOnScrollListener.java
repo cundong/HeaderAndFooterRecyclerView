@@ -47,7 +47,7 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                 layoutManagerType = LayoutManagerType.StaggeredGridLayout;
             } else {
-                throw new RuntimeException(
+                throw new CustomException(
                         "Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager");
             }
         }
