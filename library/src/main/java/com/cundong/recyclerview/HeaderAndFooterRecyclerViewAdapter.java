@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 
@@ -185,6 +186,13 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 lp.setFullSpan(true);
                 holder.itemView.setLayoutParams(lp);
             }
+            if(holder instanceof ViewHolder){
+                ViewHolder realHolder = (ViewHolder)holder;
+                if(position < headerViewsCountCount)
+                    realHolder.updateContentView(mHeaderViews.get(position));
+                else
+                    realHolder.updateContentView(mFooterViews.get(position - mInnerAdapter.getItemCount()));
+            }
         }
     }
 
@@ -212,8 +220,16 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
+        private FrameLayout localItemView;
+        public ViewHolder(View contentView) {
+            super(new FrameLayout(contentView.getContext()));
+            localItemView = (FrameLayout)itemView;
+            localItemView.addView(contentView);
+        }
+
+        public void updateContentView(View contentView){
+            localItemView.removeAllViews();
+            localItemView.addView(contentView);
         }
     }
 
