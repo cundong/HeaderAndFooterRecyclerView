@@ -1,113 +1,66 @@
-## HeaderAndFooterRecyclerView
+# HeaderAndFooterRecyclerView
 
-------
+**RecyclerView Header/Footer 历史实现与 AndroidX 迁移示例。**
 
-## 介绍
+[English](README.md) · [迁移指南](docs/MIGRATING_TO_ANDROIDX_CN.md) · [开发指南](CONTRIBUTING.md)
 
-HeaderAndFooterRecyclerView 是支持addHeaderView、 addFooterView、分页加载的RecyclerView解决方案。
+这个项目最初用于给 RecyclerView 添加 Header、Footer，并演示分页加载状态。今天，仓库保留可构建的旧实现，同时提供 AndroidX 对照示例，帮助已有项目逐步迁移。
 
-它可以对 RecyclerView 控件进行拓展（通过RecyclerView.Adapter实现），给RecyclerView增加HeaderView、FooterView，并且**不需要**对你的具体业务逻辑Adapter做任何修改。
+**新项目建议直接使用 AndroidX `ConcatAdapter` 实现 Header/Footer。** 需要完整的分页管理时再引入 Paging。已有项目可以逐步替换；本分支不是旧 Android Support 版本的无缝升级。
 
-同时，通过修改 FooterView State，可以动态 FooterView 赋予不同状态（加载中、加载失败、滑到最底等），可以实现 RecyclerView 分页加载数据时的 Loading/TheEnd/NetWorkError 效果。
+## 从这里开始
 
-sample工程，是一个简单addHeaderView、 addFooterView 的示例，samplePlus工程，是一个通过改变 FooterView 状态实现了分页加载的示例工程。
+| 你的情况 | 推荐入口 |
+| --- | --- |
+| 正在开发新的 RecyclerView 页面 | 运行 `samplePlus` 中的 **ConcatAdapter (AndroidX)**，该页面不调用本库 API。 |
+| 正在维护已经接入本库的项目 | 先读[兼容性变化](docs/MODERNIZATION.md)，再按[迁移指南](docs/MIGRATING_TO_ANDROIDX_CN.md)逐步替换。 |
+| 查找当年的用法和截图 | 查看[历史用法与截图](docs/LEGACY_USAGE_CN.md)。 |
+| 准备贡献代码，或使用 AI 协作 | 阅读[开发指南](CONTRIBUTING.md)、[架构说明](docs/ARCHITECTURE.md)和 [AGENTS.md](AGENTS.md)。 |
 
-## 使用
+## 今天如何实现这些需求？
 
-* 添加HeaderView、FooterView
-```java
-        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter);
-        mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+| 需求 | 推荐方案 |
+| --- | --- |
+| Header + 数据 + Footer | `ConcatAdapter(headerAdapter, dataAdapter, footerAdapter)` |
+| 点击事件中的数据位置 | `getBindingAdapterPosition()`，并检查 `NO_POSITION` |
+| 列表增量刷新 | `ListAdapter` / `DiffUtil` |
+| 分页管理与错误重试 | Paging + `PagingDataAdapter` + `LoadStateAdapter` |
+| 网格、瀑布流中占满宽度的 Header/Footer | 显式配置跨度或 full-span 布局参数 |
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+`ConcatAdapter` 负责组合 Adapter、转发通知偏移和隔离 viewType，但不会替你决定布局跨度。迁移到 Paging 还需要整理请求和分页状态，不能只替换滚动监听器。参见官方 [ConcatAdapter 文档](https://developer.android.com/reference/androidx/recyclerview/widget/ConcatAdapter)和 [Paging 加载状态指南](https://developer.android.com/topic/libraries/architecture/paging/load-state)。
 
-        //add a HeaderView
-        RecyclerViewUtils.setHeaderView(mRecyclerView, new SampleHeader(this));
+## 运行示例
 
-        //add a FooterView
-        RecyclerViewUtils.setFooterView(mRecyclerView, new SampleFooter(this));
+准备 JDK **17 或 21**、Android SDK **36** 和 Build Tools **35.0.0**。设置 `ANDROID_HOME` 或在不提交到 Git 的 `local.properties` 中配置 SDK 路径，详见[环境配置](CONTRIBUTING.md)。
+
+```sh
+sdkmanager "platforms;android-36" "build-tools;35.0.0" "platform-tools"
+./gradlew testDebugUnitTest assembleDebug lintDebug --console=plain
 ```
 
-* LinearLayout/GridLayout/StaggeredGridLayout布局的RecyclerView分页加载
+Windows 使用 `gradlew.bat`。首次构建需要下载依赖，单元测试在本机运行，无需模拟器。工程固定使用 Gradle 8.13、AGP 8.11.1、RecyclerView 1.4.0 和 AppCompat 1.7.1，所有模块最低支持 Android **API 21**。
 
-```java
-mRecyclerView.addOnScrollListener(mOnScrollListener);
-```
+| 模块 | 用途 |
+| --- | --- |
+| `library` | 保留旧 Adapter 包装器、位置/跨度辅助方法和滚动回调，用于迁移与回归验证。 |
+| `sample` | 最小的旧版 Header/Footer 示例。 |
+| `samplePlus` | 首项为 AndroidX 网格示例，其后为旧版线性、网格和瀑布流分页演示。 |
 
-```java
-private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+用 Android Studio 打开仓库根目录，运行 `samplePlus`。进入 **ConcatAdapter (AndroidX)** 后，可以看到跨两列的 Header/Footer；点击数据项会显示其在数据 Adapter 内的位置。两个示例使用不同的应用 ID，可以同时安装。
 
-        @Override
-        public void onLoadNextPage(View view) {
-            super.onLoadNextPage(view);
+现代示例位于 [ConcatExampleActivity.java](samplePlus/src/main/java/com/cundong/recyclerview/sample/ConcatExampleActivity.java)。`samplePlus` 为保留其他旧演示仍依赖 `library`，复制现代页面本身不需要旧包装器。仓库没有提供完整的 Paging 或 Compose 应用。
 
-            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if(state == LoadingFooter.State.Loading) {
-                Log.d("@Cundong", "the state is Loading, just wait..");
-                return;
-            }
+## 兼容性与维护范围
 
-            mCurrentCounter = mDataList.size();
+- 本分支将 `android.support` 迁移到 AndroidX，并将 `library` 和 `sample` 的最低 SDK 从 14 提高到 21。升级使用方前请读[改造与兼容性说明](docs/MODERNIZATION.md)。
+- 原始 Support 版本保留在 [Git 历史](https://github.com/cundong/HeaderAndFooterRecyclerView/tree/33860effcdfad7b62172f0235f358533a5235fa6)中。本分支不发布或替换 Maven 制品。
+- 维护重点是可复现构建、已确认的缺陷、必要的兼容修复，以及迁移文档和示例；不再扩张通用 Adapter 功能。
+- 测试和 CI 覆盖已记录的场景，并不代表所有历史边界问题都已解决。参见[维护范围与已知限制](docs/MAINTENANCE.md)，设备验收清单见[开发指南](CONTRIBUTING.md)。
 
-            if (mCurrentCounter < TOTAL_COUNTER) {
-                // loading more
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
-                requestData();
-            } else {
-                //the end
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
-            }
-        }
-    };
-```
-## 注意事项
+关于这些取舍，另见[项目定位](docs/PROJECT_DIRECTION.md)。
 
-如果已经使用 ```RecyclerViewUtils.setHeaderView(mRecyclerView, view);``` 为RecyclerView添加了HeaderView，那么再调用ViewHolder类的```getAdapterPosition()```、```getLayoutPosition()```时返回的值就会因为增加了Header而受影响（返回的position等于真实的position+headerCounter）。
+## 历史与许可证
 
-因此，这种情况下请使用
-```RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this)```、```RecyclerViewUtils.getLayoutPosition(mRecyclerView, ViewHolder.this)``` 两个方法来替代。
+项目由 Cundong 于 2015 年创建，原始实现、示例、截图和 Git 历史继续保留。感谢历年的贡献者和使用者。
 
-## Demo
-
-* 添加HeaderView、FooterView
-
-![截屏][1]
-
-* 支持分页加载的LinearLayout布局RecyclerView
-
-![截屏][2]
-
-* 支持分页加载的GridLayout布局RecyclerView
-
-![截屏][3]
-
-* 支持分页加载的StaggeredGridLayout布局RecyclerView
-
-![截屏][4]
-
-* 分页加载失败时的GridLayout布局RecyclerView
-
-![截屏][5]
-
-## License
-
-    Copyright 2015 Cundong
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-  [1]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art1.png
-  [2]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art2.png
-  [3]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art3.png
-  [4]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art4.png
-  [5]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art5.png
-  [6]: http://my.oschina.net/liucundong/blog
+Copyright 2015 Cundong，使用 [Apache License 2.0](LICENSE)。
