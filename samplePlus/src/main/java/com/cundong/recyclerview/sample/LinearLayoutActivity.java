@@ -2,9 +2,8 @@ package com.cundong.recyclerview.sample;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
  *
  * 带HeaderView、FooterView的LinearLayout RecyclerView
  */
-public class LinearLayoutActivity extends AppCompatActivity {
+public class LinearLayoutActivity extends BaseSampleActivity {
 
     private RecyclerView mRecyclerView = null;
 

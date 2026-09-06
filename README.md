@@ -1,105 +1,58 @@
-## HeaderAndFooterRecyclerView
+# HeaderAndFooterRecyclerView
 
-## Introduction
+**Legacy RecyclerView header/footer support and AndroidX migration examples.**
 
-HeaderAndFooterRecyclerView is a RecyclerView solution that supports addHeaderView, addFooterView to a RecyclerView.
+[简体中文](README_CN.md) · [Legacy examples](docs/LEGACY_USAGE.md) · [Development](CONTRIBUTING.md)
 
-Through this library, you can implement RecyclerView's Page Loading by dynamically modify the FooterView's State, such as "loading", "loading error", "loading success", "slipping to the bottom".
+This project originally made it easier to add headers, footers and loading-state examples to RecyclerView. Today, it preserves that implementation as a buildable migration reference alongside an AndroidX example.
 
-## How to Use It
+**For new projects, use AndroidX `ConcatAdapter` for headers and footers.** Add Paging when you need managed pagination. Existing integrations can migrate incrementally; this branch is not a drop-in update for the old Android Support library.
 
-* Add HeaderView, FooterView
-```java
-    mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter);
-    mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+## Choose your path
 
-    //add a HeaderView
-    RecyclerViewUtils.setHeaderView(mRecyclerView, new SampleHeader(this));
+| Your situation | Start here |
+| --- | --- |
+| Building a new RecyclerView screen | Run **ConcatAdapter (AndroidX)** in `samplePlus`; its page uses no API from this library. |
+| Maintaining an existing integration | Review [compatibility and maintenance](#compatibility-and-maintenance) and the [legacy usage notes](docs/LEGACY_USAGE.md). |
+| Looking for the original examples | See [legacy usage and screenshots](docs/LEGACY_USAGE.md). |
+| Contributing or working with an AI agent | Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/ARCHITECTURE.md) and [AGENTS.md](AGENTS.md). |
 
-    //add a FooterView
-    RecyclerViewUtils.setFooterView(mRecyclerView, new SampleFooter(this));
-```
-* LinearLayout / GridLayout / StaggeredGridLayout layout of RecyclerView paging load
+## What replaces the original features?
 
-```java
-mRecyclerView.addOnScrollListener(mOnScrollListener);
-```
+| Need | Current AndroidX approach |
+| --- | --- |
+| Header + data + footer | `ConcatAdapter(headerAdapter, dataAdapter, footerAdapter)` |
+| Data-row click positions | `getBindingAdapterPosition()`, checking `NO_POSITION` |
+| Incremental list updates | `ListAdapter` / `DiffUtil` |
+| Managed pagination and retry UI | Paging + `PagingDataAdapter` + `LoadStateAdapter` |
+| Full-width grid / staggered-grid decorations | Explicit span lookup / full-span layout parameters |
 
-```java
-private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+`ConcatAdapter` handles adapter composition, notification offsets and view-type isolation; it does not choose layout spans. Paging migration also requires moving data requests and pagination state, not just replacing a scroll listener. See the official [ConcatAdapter reference](https://developer.android.com/reference/androidx/recyclerview/widget/ConcatAdapter) and [Paging loading-state guide](https://developer.android.com/topic/libraries/architecture/paging/load-state).
 
-        @Override
-        public void onLoadNextPage(View view) {
-            super.onLoadNextPage(view);
+## Run the examples
 
-            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
-            if(state == LoadingFooter.State.Loading) {
-                Log.d("@Cundong", "the state is Loading, just wait..");
-                return;
-            }
+Use JDK **17 or 21**, Android SDK **36**, and Build Tools **35.0.0**. Set `ANDROID_HOME` or configure an untracked `local.properties`; see [setup details](CONTRIBUTING.md).
 
-            mCurrentCounter = mDataList.size();
-
-            if (mCurrentCounter < TOTAL_COUNTER) {
-                // loading more
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
-                requestData();
-            } else {
-                //the end
-                RecyclerViewStateUtils.setFooterViewState(EndlessLinearLayoutActivity.this, mRecyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
-            }
-        }
-    };
+```sh
+sdkmanager "platforms;android-36" "build-tools;35.0.0" "platform-tools"
+./gradlew testDebugUnitTest assembleDebug lintDebug --console=plain
 ```
 
-## Attention
+Use `gradlew.bat` on Windows. First builds download dependencies. Tests run on the host without an emulator. The build pins Gradle 8.13, AGP 8.11.1, RecyclerView 1.4.0 and AppCompat 1.7.1; all modules require Android API **21+**.
 
-If you have already added a HeaderView for RecyclerView by ```RecyclerViewUtils.setHeaderView(mRecyclerView, view);``` , then call the ViewHolder 's ```getAdapterPosition()```、```getLayoutPosition()```, ,the returned value will be affected by the addition of the HeaderView (the return position is the real position + headerCounter).
+| Module | Purpose |
+| --- | --- |
+| `library` | Legacy wrapper, position/span helpers and scroll callbacks; retained for migration and regression coverage. |
+| `sample` | Minimal legacy header/footer example. |
+| `samplePlus` | AndroidX grid example first, followed by legacy linear/grid/staggered paging demos. |
 
-Therefore, in this case, please use: ```RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this)```, ```RecyclerViewUtils.getLayoutPosition(mRecyclerView, ViewHolder.this)```.
+Open the root project in Android Studio and run `samplePlus`. In **ConcatAdapter (AndroidX)**, headers and footers span both columns; tapping an item reports its position within the data adapter. The two demo apps have different application IDs and can be installed together.
 
-## Demo
+The modern page is [ConcatExampleActivity.java](samplePlus/src/main/java/com/cundong/recyclerview/sample/ConcatExampleActivity.java). `samplePlus` still depends on `library` for its other demos; copying the modern page does not require the legacy wrapper. This repository does not include a complete Paging or Compose app.
 
-* Add HeaderView, FooterView
+## Compatibility and maintenance
 
-![Screenshots][1]
-
-* Support for ply loading of the LinearLayout layout RecyclerView
-
-![Screenshots][2]
-
-* Support for paging loads of GridLayout layout RecyclerView
-
-![Screenshots][3]
-
-* Supports paging loads of StaggeredGridLayout layout RecyclerView
-
-![Screenshots][4]
-
-* The page load fails when the GridLayout layout is RecyclerView
-
-![Screenshots][5]
-
-
-## License
-
-> Copyright 2015 Cundong
-> 
-> Licensed under the Apache License, Version 2.0 (the "License"); you
-> may not use this file except in compliance with the License. You may
-> obtain a copy of the License at
-> 
->    http://www.apache.org/licenses/LICENSE-2.0
-> 
-> Unless required by applicable law or agreed to in writing, software
-> distributed under the License is distributed on an "AS IS" BASIS,
-> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-> implied. See the License for the specific language governing
-> permissions and limitations under the License.
-
-[1]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art1.png
-[2]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art2.png
-[3]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art3.png
-[4]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art4.png
-[5]: https://raw.githubusercontent.com/cundong/HeaderAndFooterRecyclerView/master/art/art5.png
+- This branch migrates `android.support` types to AndroidX and raises the minimum SDK from 14 to 21 for `library` and `sample`. Legacy Support consumers must update their imports and rebuild.
+- The original Support-era source remains in [Git history](https://github.com/cundong/HeaderAndFooterRecyclerView/tree/33860effcdfad7b62172f0235f358533a5235fa6). This branch does not publish or replace Maven artifacts.
+- Work is focused on reproducible builds, confirmed defects, necessary compatibility fixes and documentation/examples. New general-purpose adapter features are outside the maintenance scope.
+- Regression tests and CI cover documented paths, not every historical edge case. See the [architecture notes](docs/ARCHITECTURE.md) for known limits and the device smoke-test checklist in [CONTRIBUTING.md](CONTRIBUTING.md).

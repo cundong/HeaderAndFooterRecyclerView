@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">samplePlus</string>
+    <string name="app_name">RecyclerView Examples</string>
 
     <string name="header_text">The Header</string>
     <string name="footer_text">The Footer</string>
@@ -8,4 +8,13 @@
     <string name="list_footer_loading">正在加载中…</string>
     <string name="list_footer_network_error">点击重新加载</string>
     <string name="list_footer_end">已经到底了</string>
+    <string name="concat_example_title">ConcatAdapter (AndroidX)</string>
+    <string name="concat_header">Header · full width</string>
+    <string name="concat_footer">Footer · full width</string>
+    <string name="concat_item">Item %1$d</string>
+    <string name="concat_clicked">%1$s · data position %2$d</string>
+    <string name="legacy_header_footer_title">Legacy · Header and footer</string>
+    <string name="legacy_linear_title">Legacy · Linear paging</string>
+    <string name="legacy_grid_title">Legacy · Grid paging</string>
+    <string name="legacy_staggered_title">Legacy · Staggered paging</string>
 </resources>

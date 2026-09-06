@@ -1,0 +1,37 @@
+name: Android
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install SDK
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+      - name: Test, build and lint
+        run: ./gradlew testDebugUnitTest assembleDebug lintDebug --stacktrace --console=plain
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-reports
+          path: '**/build/reports/'
+          if-no-files-found: warn
