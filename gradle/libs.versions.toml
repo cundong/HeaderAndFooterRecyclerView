@@ -2,7 +2,7 @@
 agp = "8.11.1"
 recyclerview = "1.4.0"
 appcompat = "1.7.1"
-kotlin = "1.9.24"
+kotlin = "2.4.10"
 junit = "4.13.2"
 robolectric = "4.14.1"
 
