@@ -4,7 +4,7 @@ recyclerview = "1.4.0"
 appcompat = "1.7.1"
 kotlin = "1.9.24"
 junit = "4.13.2"
-robolectric = "4.14.1"
+robolectric = "4.16.1"
 
 [libraries]
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
