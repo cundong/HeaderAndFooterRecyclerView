@@ -1,21 +1,31 @@
-apply plugin: 'com.android.library'
+plugins {
+    alias(libs.plugins.android.library)
+}
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    namespace 'com.cundong.recyclerview'
+    compileSdk 36
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdk 21
     }
-
-    lintOptions {
-        abortOnError false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+    lint {
+        abortOnError true
     }
 }
 
 dependencies {
-    provided 'com.android.support:recyclerview-v7:25.3.1'
+    // RecyclerView types are part of the library's public API.
+    // Align transitive Kotlin runtimes in this Java-only project.
+    api platform(libs.kotlin.bom)
+    api libs.androidx.recyclerview
+    testImplementation libs.junit
+    testImplementation libs.robolectric
 }

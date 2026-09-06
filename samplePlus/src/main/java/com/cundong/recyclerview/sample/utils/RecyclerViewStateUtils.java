@@ -1,7 +1,7 @@
 package com.cundong.recyclerview.sample.utils;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;

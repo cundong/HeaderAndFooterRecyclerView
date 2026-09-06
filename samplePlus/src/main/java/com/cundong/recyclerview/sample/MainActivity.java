@@ -3,15 +3,12 @@ package com.cundong.recyclerview.sample;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.cundong.recyclerview.RecyclerViewUtils;
 
 import java.util.ArrayList;
 
@@ -20,10 +17,16 @@ import java.util.ArrayList;
  * <p/>
  * Sample入口
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseSampleActivity {
 
-    private static final Class<?>[] ACTIVITY = {LinearLayoutActivity.class, EndlessLinearLayoutActivity.class, EndlessGridLayoutActivity.class, EndlessStaggeredGridLayoutActivity.class};
-    private static final String[] TITLE = {"LinearLayoutSample", "EndlessLinearLayoutActivity", "EndlessGridLayoutActivity", "EndlessStaggeredGridLayoutActivity"};
+    private static final Class<?>[] ACTIVITY = {ConcatExampleActivity.class, LinearLayoutActivity.class, EndlessLinearLayoutActivity.class, EndlessGridLayoutActivity.class, EndlessStaggeredGridLayoutActivity.class};
+    private static final int[] TITLE = {
+            R.string.concat_example_title,
+            R.string.legacy_header_footer_title,
+            R.string.legacy_linear_title,
+            R.string.legacy_grid_title,
+            R.string.legacy_staggered_title
+    };
 
     private RecyclerView mRecyclerView = null;
 
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < TITLE.length; i++) {
 
             ListItem item = new ListItem();
-            item.title = TITLE[i];
+            item.title = getString(TITLE[i]);
             item.activity = ACTIVITY[i];
             mDataList.add(item);
         }
@@ -102,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        ListItem listItem = mDataList.get(RecyclerViewUtils.getAdapterPosition(mRecyclerView, ViewHolder.this));
+                        int position = getBindingAdapterPosition();
+                        if (position == RecyclerView.NO_POSITION) {
+                            return;
+                        }
+                        ListItem listItem = mDataList.get(position);
                         startActivity(new Intent(MainActivity.this, listItem.activity));
                     }
                 });

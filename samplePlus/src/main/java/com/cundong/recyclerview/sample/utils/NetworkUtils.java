@@ -54,24 +54,24 @@ public class NetworkUtils {
     public static String[] getNetType(Context paramContext) {
         String[] arrayOfString = {"Unknown", "Unknown"};
         PackageManager localPackageManager = paramContext.getPackageManager();
-        if (localPackageManager.checkPermission("android.permission.ACCESS_NETWORK_STATE", paramContext.getPackageName()) != 0) {
+        if (localPackageManager.checkPermission("android.permission.ACCESS_NETWORK_STATE", paramContext.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
             arrayOfString[0] = "Unknown";
             return arrayOfString;
         }
 
-        ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService("connectivity");
+        ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (localConnectivityManager == null) {
             arrayOfString[0] = "Unknown";
             return arrayOfString;
         }
 
-        NetworkInfo localNetworkInfo1 = localConnectivityManager.getNetworkInfo(1);
+        NetworkInfo localNetworkInfo1 = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (localNetworkInfo1 != null && localNetworkInfo1.getState() == NetworkInfo.State.CONNECTED) {
             arrayOfString[0] = "2";
             return arrayOfString;
         }
 
-        NetworkInfo localNetworkInfo2 = localConnectivityManager.getNetworkInfo(0);
+        NetworkInfo localNetworkInfo2 = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (localNetworkInfo2 != null && localNetworkInfo2.getState() == NetworkInfo.State.CONNECTED) {
             arrayOfString[0] = "1";
             arrayOfString[1] = localNetworkInfo2.getSubtypeName();

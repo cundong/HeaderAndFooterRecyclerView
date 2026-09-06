@@ -1,6 +1,6 @@
 package com.cundong.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -94,6 +94,9 @@ public class RecyclerViewUtils {
      * @return
      */
     public static int getLayoutPosition(RecyclerView recyclerView, RecyclerView.ViewHolder holder) {
+        if (holder.getLayoutPosition() == RecyclerView.NO_POSITION) {
+            return RecyclerView.NO_POSITION;
+        }
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
         if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
 
@@ -114,6 +117,9 @@ public class RecyclerViewUtils {
      * @return
      */
     public static int getAdapterPosition(RecyclerView recyclerView, RecyclerView.ViewHolder holder) {
+        if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) {
+            return RecyclerView.NO_POSITION;
+        }
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
         if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
 

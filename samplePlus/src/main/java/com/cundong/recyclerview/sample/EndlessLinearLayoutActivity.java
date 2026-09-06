@@ -4,10 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.SortedList;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  *
  * 带HeaderView的分页加载LinearLayout RecyclerView
  */
-public class EndlessLinearLayoutActivity extends AppCompatActivity {
+public class EndlessLinearLayoutActivity extends BaseSampleActivity {
 
     /**服务器端一共多少条数据*/
     private static final int TOTAL_COUNTER = 64;

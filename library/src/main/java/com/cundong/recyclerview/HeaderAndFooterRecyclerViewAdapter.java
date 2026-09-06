@@ -1,7 +1,7 @@
 package com.cundong.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,6 +43,11 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }
 
         @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            notifyItemRangeChanged(positionStart + getHeaderViewsCount(), itemCount, payload);
+        }
+
+        @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             super.onItemRangeInserted(positionStart, itemCount);
             notifyItemRangeInserted(positionStart + getHeaderViewsCount(), itemCount);
@@ -57,8 +62,12 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-            int headerViewsCountCount = getHeaderViewsCount();
-            notifyItemRangeChanged(fromPosition + headerViewsCountCount, toPosition + headerViewsCountCount + itemCount);
+            if (itemCount == 1) {
+                notifyItemMoved(fromPosition + getHeaderViewsCount(), toPosition + getHeaderViewsCount());
+            } else {
+                // RecyclerView exposes single-item moves; use a full refresh for a range.
+                notifyDataSetChanged();
+            }
         }
     };
 
@@ -185,6 +194,17 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 lp.setFullSpan(true);
                 holder.itemView.setLayoutParams(lp);
             }
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position,
+                                 java.util.List<Object> payloads) {
+        int innerPosition = position - getHeaderViewsCount();
+        if (innerPosition >= 0 && innerPosition < mInnerAdapter.getItemCount()) {
+            mInnerAdapter.onBindViewHolder(holder, innerPosition, payloads);
+        } else {
+            onBindViewHolder(holder, position);
         }
     }
 
