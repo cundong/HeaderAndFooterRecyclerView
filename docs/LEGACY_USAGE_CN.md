@@ -1,6 +1,6 @@
 # 历史用法与截图
 
-以下保留原始用法和历史截图，帮助理解旧项目。当前源码已迁移到 AndroidX。分页示例中的 Footer 状态和请求逻辑属于示例应用，库本身不是分页引擎。新代码请参考[AndroidX 迁移指南](MIGRATING_TO_ANDROIDX_CN.md)。读取数据前务必检查 RecyclerView.NO_POSITION；不要将旧位置辅助方法与 ConcatAdapter 混用。
+以下保留原始用法和历史截图，帮助理解旧项目。当前源码已迁移到 AndroidX。分页示例中的 Footer 状态和请求逻辑属于示例应用，库本身不是分页引擎。读取数据前务必检查 RecyclerView.NO_POSITION；不要将旧位置辅助方法与 ConcatAdapter 混用。
 
 ------
 
@@ -91,21 +91,7 @@ private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerO
 
 ![截屏][5]
 
-## License
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-  [1]: ../art/art1.png
+[1]: ../art/art1.png
   [2]: ../art/art2.png
   [3]: ../art/art3.png
   [4]: ../art/art4.png

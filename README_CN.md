@@ -2,7 +2,7 @@
 
 **RecyclerView Header/Footer 历史实现与 AndroidX 迁移示例。**
 
-[English](README.md) · [迁移指南](docs/MIGRATING_TO_ANDROIDX_CN.md) · [开发指南](CONTRIBUTING.md)
+[English](README.md) · [历史示例](docs/LEGACY_USAGE_CN.md) · [开发指南](CONTRIBUTING.md)
 
 这个项目最初用于给 RecyclerView 添加 Header、Footer，并演示分页加载状态。今天，仓库保留可构建的旧实现，同时提供 AndroidX 对照示例，帮助已有项目逐步迁移。
 
@@ -13,7 +13,7 @@
 | 你的情况 | 推荐入口 |
 | --- | --- |
 | 正在开发新的 RecyclerView 页面 | 运行 `samplePlus` 中的 **ConcatAdapter (AndroidX)**，该页面不调用本库 API。 |
-| 正在维护已经接入本库的项目 | 先读[兼容性变化](docs/MODERNIZATION.md)，再按[迁移指南](docs/MIGRATING_TO_ANDROIDX_CN.md)逐步替换。 |
+| 正在维护已经接入本库的项目 | 查看[兼容性与维护范围](#兼容性与维护范围)和[历史用法](docs/LEGACY_USAGE_CN.md)。 |
 | 查找当年的用法和截图 | 查看[历史用法与截图](docs/LEGACY_USAGE_CN.md)。 |
 | 准备贡献代码，或使用 AI 协作 | 阅读[开发指南](CONTRIBUTING.md)、[架构说明](docs/ARCHITECTURE.md)和 [AGENTS.md](AGENTS.md)。 |
 
@@ -52,9 +52,7 @@ Windows 使用 `gradlew.bat`。首次构建需要下载依赖，单元测试在�
 
 ## 兼容性与维护范围
 
-- 本分支将 `android.support` 迁移到 AndroidX，并将 `library` 和 `sample` 的最低 SDK 从 14 提高到 21。升级使用方前请读[改造与兼容性说明](docs/MODERNIZATION.md)。
+- 本分支将 `android.support` 迁移到 AndroidX，并将 `library` 和 `sample` 的最低 SDK 从 14 提高到 21。旧版 Support 使用方需要更新导入并重新构建。
 - 原始 Support 版本保留在 [Git 历史](https://github.com/cundong/HeaderAndFooterRecyclerView/tree/33860effcdfad7b62172f0235f358533a5235fa6)中。本分支不发布或替换 Maven 制品。
-- 维护重点是可复现构建、已确认的缺陷、必要的兼容修复，以及迁移文档和示例；不再扩张通用 Adapter 功能。
-- 测试和 CI 覆盖已记录的场景，并不代表所有历史边界问题都已解决。参见[维护范围与已知限制](docs/MAINTENANCE.md)，设备验收清单见[开发指南](CONTRIBUTING.md)。
-
-关于这些取舍，另见[项目定位](docs/PROJECT_DIRECTION.md)。
+- 维护重点是可复现构建、已确认的缺陷、必要的兼容修复，以及文档和示例；不再扩张通用 Adapter 功能。
+- 测试和 CI 覆盖已记录的场景，并不代表所有历史边界问题都已解决。已知限制见[架构说明](docs/ARCHITECTURE.md)，设备验收清单见[开发指南](CONTRIBUTING.md)。

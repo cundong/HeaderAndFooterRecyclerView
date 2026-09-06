@@ -14,8 +14,8 @@ Test reports are under `library/build/reports/tests/testDebugUnitTest/` and `sam
 
 For a quick library-only iteration run `./gradlew :library:testDebugUnitTest`. Before sending a change run the full command above. CI runs both test suites, builds both examples and checks lint in all three modules.
 
-The maintenance scope and known legacy limits are recorded in [MAINTENANCE.md](docs/MAINTENANCE.md).
+See the README for maintenance scope and [architecture](docs/ARCHITECTURE.md) for known limits.
 
 For runtime verification, install both examples on an API 21 device/emulator and an API 36 device/emulator. Exercise header/footer placement, linear/grid/staggered layouts, pagination, retry/end states, rotation, and system-bar insets. Host tests do not replace these visual checks.
 
-Keep public API changes explicit, test regressions, and describe behavior plus validation in pull requests. See [architecture](docs/ARCHITECTURE.md), [migration notes](docs/MODERNIZATION.md), and [agent guidance](AGENTS.md).
+Keep public API changes explicit, test regressions, and describe behavior plus validation in pull requests. Keep compatibility changes documented in both READMEs. See [architecture](docs/ARCHITECTURE.md) and [agent guidance](AGENTS.md).

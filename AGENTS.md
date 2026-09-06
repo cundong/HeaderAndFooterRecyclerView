@@ -3,10 +3,7 @@
 ## Start here
 - Read `README.md` (or `README_CN.md`), `CONTRIBUTING.md`, and `docs/ARCHITECTURE.md`.
 - `gradle/libs.versions.toml` owns dependency/plugin versions; module Gradle files own SDK levels.
-- This is a Java Android Views library. Keep `com.cundong.recyclerview` public APIs recognizable; document compatibility changes in `docs/MODERNIZATION.md`.
-
-## Direction
-- Read `docs/PROJECT_DIRECTION.md` before extending the library. Prefer migration examples using AndroidX over expanding the legacy wrapper.
+- This is a Java Android Views library. Keep `com.cundong.recyclerview` public APIs recognizable; document compatibility changes in both READMEs.
 
 ## Map
 - `library/src/main/java/com/cundong/recyclerview/`: reusable adapter, position helpers, span lookup, scrolling callbacks.

@@ -2,7 +2,7 @@
 
 **Legacy RecyclerView header/footer support and AndroidX migration examples.**
 
-[简体中文](README_CN.md) · [Migration guide](docs/MIGRATING_TO_ANDROIDX.md) · [Development](CONTRIBUTING.md)
+[简体中文](README_CN.md) · [Legacy examples](docs/LEGACY_USAGE.md) · [Development](CONTRIBUTING.md)
 
 This project originally made it easier to add headers, footers and loading-state examples to RecyclerView. Today, it preserves that implementation as a buildable migration reference alongside an AndroidX example.
 
@@ -13,7 +13,7 @@ This project originally made it easier to add headers, footers and loading-state
 | Your situation | Start here |
 | --- | --- |
 | Building a new RecyclerView screen | Run **ConcatAdapter (AndroidX)** in `samplePlus`; its page uses no API from this library. |
-| Maintaining an existing integration | Read [compatibility changes](docs/MODERNIZATION.md), then the [migration guide](docs/MIGRATING_TO_ANDROIDX.md). |
+| Maintaining an existing integration | Review [compatibility and maintenance](#compatibility-and-maintenance) and the [legacy usage notes](docs/LEGACY_USAGE.md). |
 | Looking for the original examples | See [legacy usage and screenshots](docs/LEGACY_USAGE.md). |
 | Contributing or working with an AI agent | Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/ARCHITECTURE.md) and [AGENTS.md](AGENTS.md). |
 
@@ -52,7 +52,7 @@ The modern page is [ConcatExampleActivity.java](samplePlus/src/main/java/com/cun
 
 ## Compatibility and maintenance
 
-- This branch migrates `android.support` types to AndroidX and raises the minimum SDK from 14 to 21 for `library` and `sample`. Read [the upgrade notes](docs/MODERNIZATION.md) before changing a consumer.
+- This branch migrates `android.support` types to AndroidX and raises the minimum SDK from 14 to 21 for `library` and `sample`. Legacy Support consumers must update their imports and rebuild.
 - The original Support-era source remains in [Git history](https://github.com/cundong/HeaderAndFooterRecyclerView/tree/33860effcdfad7b62172f0235f358533a5235fa6). This branch does not publish or replace Maven artifacts.
-- Work is focused on reproducible builds, confirmed defects, necessary compatibility fixes and migration documentation/examples. New general-purpose adapter features are outside the maintenance scope.
-- Regression tests and CI cover documented paths, not every historical edge case. See the [maintenance policy](docs/MAINTENANCE.md) for known limits and the device smoke-test checklist in [CONTRIBUTING.md](CONTRIBUTING.md).
+- Work is focused on reproducible builds, confirmed defects, necessary compatibility fixes and documentation/examples. New general-purpose adapter features are outside the maintenance scope.
+- Regression tests and CI cover documented paths, not every historical edge case. See the [architecture notes](docs/ARCHITECTURE.md) for known limits and the device smoke-test checklist in [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,6 +1,6 @@
 # Legacy usage and screenshots
 
-These are the original usage notes and historical screenshots. Current sources use AndroidX imports. The pagination helpers and footer states shown here belong to the sample apps, not a paging engine in the library. Use these notes to understand an existing integration. For new code, follow the [AndroidX migration guide](MIGRATING_TO_ANDROIDX.md). Always check RecyclerView.NO_POSITION before indexing data; do not combine the legacy position helpers with ConcatAdapter.
+These are the original usage notes and historical screenshots. Current sources use AndroidX imports. The pagination helpers and footer states shown here belong to the sample apps, not a paging engine in the library. Use these notes to understand an existing integration. Always check RecyclerView.NO_POSITION before indexing data; do not combine the legacy position helpers with ConcatAdapter.
 
 ## Introduction
 
@@ -82,21 +82,6 @@ Therefore, in this case, please use: ```RecyclerViewUtils.getAdapterPosition(mRe
 * The page load fails when the GridLayout layout is RecyclerView
 
 ![Screenshots][5]
-
-
-## License
-
-> Licensed under the Apache License, Version 2.0 (the "License"); you
-> may not use this file except in compliance with the License. You may
-> obtain a copy of the License at
->
->    http://www.apache.org/licenses/LICENSE-2.0
->
-> Unless required by applicable law or agreed to in writing, software
-> distributed under the License is distributed on an "AS IS" BASIS,
-> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-> implied. See the License for the specific language governing
-> permissions and limitations under the License.
 
 [1]: ../art/art1.png
 [2]: ../art/art2.png
