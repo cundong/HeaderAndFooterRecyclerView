@@ -56,9 +56,3 @@ The modern page is [ConcatExampleActivity.java](samplePlus/src/main/java/com/cun
 - The original Support-era source remains in [Git history](https://github.com/cundong/HeaderAndFooterRecyclerView/tree/33860effcdfad7b62172f0235f358533a5235fa6). This branch does not publish or replace Maven artifacts.
 - Work is focused on reproducible builds, confirmed defects, necessary compatibility fixes and migration documentation/examples. New general-purpose adapter features are outside the maintenance scope.
 - Regression tests and CI cover documented paths, not every historical edge case. See the [maintenance policy](docs/MAINTENANCE.md) for known limits and the device smoke-test checklist in [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## History and license
-
-Created by Cundong in 2015. The original implementation, examples, screenshots and Git history are preserved. Thanks to the original contributors and users who helped shape the project.
-
-Copyright 2015 Cundong. Licensed under the [Apache License 2.0](LICENSE).

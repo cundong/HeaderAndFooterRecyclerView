@@ -58,9 +58,3 @@ Windows 使用 `gradlew.bat`。首次构建需要下载依赖，单元测试在�
 - 测试和 CI 覆盖已记录的场景，并不代表所有历史边界问题都已解决。参见[维护范围与已知限制](docs/MAINTENANCE.md)，设备验收清单见[开发指南](CONTRIBUTING.md)。
 
 关于这些取舍，另见[项目定位](docs/PROJECT_DIRECTION.md)。
-
-## 历史与许可证
-
-项目由 Cundong 于 2015 年创建，原始实现、示例、截图和 Git 历史继续保留。感谢历年的贡献者和使用者。
-
-Copyright 2015 Cundong，使用 [Apache License 2.0](LICENSE)。
